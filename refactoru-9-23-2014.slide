@@ -1,0 +1,129 @@
+Javascript Concurrency Patterns
+Superfun times
+23 Sep 2014
+Tags: javascript, concurrency, patterns, async, promises, flow-control, callbacks
+
+Jon Eisen
+Code Typist, Rafflecopter
+jon@joneisen.me
+http://joneisen.me/
+@jm_eisen
+
+* Javascript Concurrency Patterns
+** Introduction
+
+* What is Concurrency?
+
+- It's not parallelism
+- Although it _enables_ parallelism
+- If you have only one processor, your program can still be concurrent but it cannot be parallel.
+
+(Plagerized from [[http://talks.golang.org/2012/concurrency.slide][Go Concurrency Patterns]] by Rob Pike, 2012)
+
+
+* Single-threaded concurrency
+
+- Single thread means a single CPU thread
+- Can't concurrently run CPU tasks
+- Concurrently run IO tasks
+
+.play code/single-thread-concurrency.js /START/,/END/
+
+
+* Functional Javascript
+
+Functional Programming is important to know for concurrent javascript.
+
+.play code/church.js /START/,/END/
+
+
+* Callbacks
+
+Callbacks are the core of concurrent javascript.
+
+.code code/callbacks.js
+
+They allow us to let the main event loop reschedule tasks to run.
+
+
+* Callback Hell
+
+But callbacks can quickly make unreadable code.
+
+.code code/callback_hell.js
+
+
+* Javascript Concurrency Patterns
+** Flow Control
+
+.image img/parallel_flow.png
+
+* async
+
+.play code/async.js /START/,/END/
+
+`async` brings flexibility and organization to asynchronous tasks.
+
+.link https://npmjs.org/package/async
+
+* Promises
+
+.play code/promise.js /START/,/END/
+
+Promises offer an alternate way to do flow control.
+
+.link https://npmjs.org/package/q
+
+* Javascript Concurrency Patterns
+** Events
+
+.image img/event-loop-js.png _ 300
+
+* Browser User Interactions using jQuery
+
+.code code/jquery_events.js
+
+* Game Loop using EventEmitter
+
+.play code/events.js /START/,/END/
+
+Events allow for declarative concurrency.
+
+.link http://nodejs.org/api/events.html#events_class_events_eventemitter
+
+* Javascript Concurrency Patterns
+** Middleware
+
+* express
+
+The [[http://expressjs.com/][express]] webserver uses middleware all over the place!
+
+.code code/express.js /START1/,/END1/
+.play code/express.js /START2/,/END2/
+
+* Javascript Concurrency Patterns
+** Finite Worker Queue
+
+* Finite Worker Queue
+
+.code code/web_crawler.js /START1/,/END1/
+
+* Web Crawler using Finite Queue
+
+.play code/web_crawler.js /START2/,/END2/
+
+* Web Crawler using async.queue
+
+.play code/web_crawler_async.js /START2/,/END2/
+
+* Javascript Concurrency Patterns
+** Ending
+
+* Recap
+
+- Flow Control for tasks (async & promises)
+- Events (EventEmitter & jQuery)
+- Middleware (express)
+- Finite Worker Queue (custom & async)
+
+Choose the pattern _right_ for your situation!

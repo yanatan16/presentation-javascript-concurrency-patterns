@@ -1,0 +1,26 @@
+{
+  "name": "presentation-javascript-concurrency-patterns",
+  "version": "0.0.0",
+  "description": "presentation-javascript-concurrency-patterns ============================================",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/yanatan16/presentation-javascript-concurrency-patterns.git"
+  },
+  "author": "Jon Eisen <jon@joneisen.me>",
+  "license": "CC0",
+  "bugs": {
+    "url": "https://github.com/yanatan16/presentation-javascript-concurrency-patterns/issues"
+  },
+  "homepage": "https://github.com/yanatan16/presentation-javascript-concurrency-patterns",
+  "dependencies": {
+    "async": "^0.9.0",
+    "cheerio": "^0.17.0",
+    "express": "^4.9.0",
+    "q": "^1.0.1",
+    "request": "^2.42.0"
+  }
+}
