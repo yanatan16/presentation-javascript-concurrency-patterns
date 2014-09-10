@@ -1,4 +1,4 @@
-#!/usr/bin/env ./node.sh
+#!/usr/bin/env ./run.js
 
 var request = require('request')
   , cheerio = require('cheerio')

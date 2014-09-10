@@ -1,4 +1,4 @@
-#!/usr/bin/env ./node.sh
+#!/usr/bin/env ./run.js
 
 
 var async = require('async')
