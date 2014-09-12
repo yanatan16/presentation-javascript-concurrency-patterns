@@ -12,20 +12,20 @@ reactor.on('loop', function (n) {
 
 //START OMIT
 
-reactor.on('draw', function () {
+reactor.on('draw', function () { // HL
   console.log('drawing', state)
 })
 
-reactor.on('change', function (name, val) {
+reactor.on('change', function (name, val) { // HL
   state[name] = val
-  reactor.emit('draw')
+  reactor.emit('draw') // HL
 })
 
-reactor.on('loop', function (n) {
+reactor.on('loop', function (n) { // HL
   if (n === 1)
-    reactor.emit('change', 'x', 1)
+    reactor.emit('change', 'x', 1) // HL
   else if (n === 2)
-    reactor.emit('change', 'y', 10)
+    reactor.emit('change', 'y', 10) // HL
 })
 
 reactor.emit('loop', 0)

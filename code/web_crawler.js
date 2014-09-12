@@ -5,21 +5,21 @@ var request = require('request')
   , url = require('url')
 
 //START1 OMIT
-function FiniteQueue(dowork, options) {
-  var workers = 0, queue = []
+function FiniteQueue(dowork, options) {  // HL
+  var workers = 0, total = 0, queue = [], limit = options.concurrentLimit
 
   return {
-    push: function (item) {
-      if (workers < options.concurrentLimit)
+    push: function (item) { // HL
+      if (workers < limit)
         start(item)
       else
         queue.push(item)
     }
   }
 
-  function start(item) {
-    workers ++
-    setImmediate(dowork.bind(null, item, function (err) {
+  function start(item) { // HL
+    workers ++; var worker_num = total++ % limit;
+    setImmediate(dowork.bind(null, item, worker_num, function (err) { // HL
       workers --
       if (queue.length) start(queue.shift())
     }))
@@ -27,32 +27,38 @@ function FiniteQueue(dowork, options) {
 }
 //END1 OMIT
 
-var crawled = {}
-  , total = 0
+var crawled_list = {}
+
 //START2 OMIT
-var q = FiniteQueue(crawlWeb, { concurrentLimit: 3 })
-q.push('http://blog.joneisen.me/')
+var queue = FiniteQueue(crawlWeb, { concurrentLimit: 3 }) // HL
+queue.push('http://blog.joneisen.me/')
 
-function crawlWeb(url, callback) {
-  if (crawled[url]) return callback()
+function crawlWeb(url, worker_num, callback) { // HL
+  if (crawled(url)) return callback()
   var links = 0
-  if (total++ > 20) throw new Error('ending early')
 
-  console.log('crawling', url)
-  request(url, function (err, resp, body) {
+  console.log(worker_num + ' crawling', url)
+  request(url, function (err, resp, body) { // HL
     if (!err && resp.statusCode === 200)
-      cheerio.load(body)('a').each(function (i, el) {
+      cheerio.load(body)('a').each(function (i, el) { // HL
         var link = linkify(el.attribs.href, url)
         if (link) { links ++
-                    q.push(link) }
+                    queue.push(link) }
       })
 
-    console.log('found ' + links + ' at ' + url)
-    crawled[url] = true;
-    callback()
+    console.log(worker_num + ' found ' + links + ' at ' + url)
+    callback() // HL
   })
 }
 //END2 OMIT
+
+function crawled(s) {
+  s = s.split('?')[0].replace(/^https/, 'http')
+  if (crawled_list[s])
+    return true
+  crawled_list[s] = true
+  return false
+}
 
 function linkify(link, baseurl) {
   if (!link || !baseurl) return

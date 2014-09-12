@@ -1,12 +1,12 @@
 #!/usr/bin/env ./run.js
 
 // START OMIT
-setInterval(chat('ping'), 700)
-setInterval(chat('       pong'), 1000)
+chat('ping', {every: 700})
+chat('       pong', {every: 1000})
 
-function chat(str) {
-  return function () {
+function chat(str, opts) {
+  setInterval(function () {
     console.log(str)
-  }
+  }, opts.every)
 }
 // END OMIT

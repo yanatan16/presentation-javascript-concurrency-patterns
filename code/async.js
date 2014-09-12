@@ -1,11 +1,12 @@
 #!/usr/bin/env ./run.js
 
 
-var async = require('async')
 
 // START OMIT
-var start = Date.now()
-async.series([
+var async = require('async') // HL
+  , start = Date.now()
+
+async.series([ // HL
   simulateTask.bind(null, 500),
   simulateTask.bind(null, 500)
 ], function (err, result) {
@@ -13,7 +14,7 @@ async.series([
 })
 
 function simulateTask(time, cb) {
-  async.parallel([
+  async.parallel([ // HL
     timedTask(time),
     timedTask(time)
   ], cb)

@@ -5,23 +5,23 @@ var express = require('express')
   , reqs = 0
 
 // START1 OMIT
-app.use(logRequest)
-   .use(getDbData)
+app.use(logRequest) // HL
+   .use(getDbData) // HL
    .get('/', function (req, res, next) { res.json(req.data) })
 //END1 OMIT
 //START2 OMIT
-function logRequest(req, res, next) {
+function logRequest(req, res, next) { // HL
   var num = reqs++
-  next()
+  next() // HL
   setImmediate(function () {
     console.log('got request', num, req.url)
   })
 }
 
-function getDbData(req, res, next) {
+function getDbData(req, res, next) { // HL
   setTimeout(function () {
     req.data = {fake: {db: 'data'}},
-    next()
+    next() // HL
   })
 }
 // END2 OMIT

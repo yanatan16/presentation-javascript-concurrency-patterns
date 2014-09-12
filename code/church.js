@@ -20,5 +20,5 @@ var one = incr(zero)
   , three = add(one, two)
   , four = add(two, two)
 
-console.log(one(), two(), three(), four())
+console.log(one(), two(), three(), four()) // HL
 //END OMIT

@@ -5,32 +5,38 @@ var async = require('async')
   , cheerio = require('cheerio')
   , url = require('url')
 
-var crawled = {}
-  , total = 0
-//START2 OMIT
-var q = async.queue(crawlWeb, 3)
-q.push('http://blog.joneisen.me/')
+var crawled_list = {}
 
-function crawlWeb(url, callback) {
-  if (crawled[url]) return callback()
+//START2 OMIT
+var queue = async.queue(crawlWeb, 3) // HL
+queue.push('http://blog.joneisen.me/')
+
+function crawlWeb(url, callback) { // HL
+  if (crawled(url)) return callback()
   var links = 0
-  if (total++ > 20) throw new Error('ending early')
 
   console.log('crawling', url)
-  request(url, function (err, resp, body) {
+  request(url, function (err, resp, body) { // HL
     if (!err && resp.statusCode === 200)
-      cheerio.load(body)('a').each(function (i, el) {
+      cheerio.load(body)('a').each(function (i, el) { // HL
         var link = linkify(el.attribs.href, url)
         if (link) { links ++
-                    q.push(link) }
+                    queue.push(link) }
       })
 
     console.log('found ' + links + ' at ' + url)
-    crawled[url] = true;
-    callback()
+    callback() // HL
   })
 }
 //END2 OMIT
+
+function crawled(s) {
+  s = s.split('?')[0].replace(/^https/, 'http')
+  if (crawled_list[s])
+    return true
+  crawled_list[s] = true
+  return false
+}
 
 function linkify(link, baseurl) {
   if (!link || !baseurl) return
