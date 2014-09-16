@@ -18,12 +18,12 @@ http://joneisen.me/
 - Asynchronous Javascript
 - Flow Control: `async` and Promises
 
-2. *Concurrency*Patterns*
+3. *Concurrency*Patterns*
 
 - Events
 - Finite Worker Queues
 
-3. *Recap*
+4. *Recap*
 
 .html code/jquery.html
 
@@ -98,19 +98,24 @@ Flow control is used *all*the*time*.
 
 * async
 
-.play code/async.js /START/,/END/
+.code code/async.html /START/,/END/
 
 `async` brings flexibility and organization to asynchronous tasks.
 
 .link https://npmjs.org/package/async
 
+.html code/async.html
+
 * Promises
 
-.play code/promise.js /START/,/END/
+.code code/promises.html /START/,/END/
 
 Promises offer an alternate way to do flow control.
 
 .link https://npmjs.org/package/q
+
+.html code/promises.html
+
 
 
 ####################### Events #######################
@@ -221,7 +226,8 @@ Note use of `npm` modules [[http://npmjs.org/package/cheerio][cheerio]], [[http:
 
 This is a trivial case!
 
-.play code/infinite_worker_queue.js /START/,/END/
+.code code/infinite_worker_queue.js /START1/,/END1/
+.play code/infinite_worker_queue.js /START2/,/END2/
 
 
 ####################### Ending #######################

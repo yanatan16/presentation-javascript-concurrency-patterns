@@ -1,0 +1,47 @@
+<hr>
+<style>
+  img#doneimage-promises.hidden { display: none !important; }
+</style>
+<div>
+  <button id="promises-button1" disabled=disabled>One</button>
+  <button id="promises-button2" disabled=disabled>Two</button>
+  <button id="promises-button3" disabled=disabled>Three</button>
+</div>
+<div>
+  <img id="doneimage-promises" src="img/done.jpg" class="hidden" style="float: right;" width="200">
+  <textarea cols="80" rows="5" id="logarea-promises"></textarea>
+</div>
+<script src="http://rawgit.com/kriskowal/q/v1/q.js"></script>
+<script>
+(function () {
+var $logArea = $('#logarea-promises')
+
+// START OMIT
+
+waitForButton(1).then(function () { // HL
+  return Q.all([ // Parallel // HL
+    waitForButton(2),
+    waitForButton(3)
+  ])
+}).then(showImage) // HL
+// END OMIT
+
+function waitForButton(n) {
+  var deferred = Q.defer()
+  mylog('Waiting for button ' + n)
+  $('#promises-button'+n).prop('disabled', '')
+    .click(function () { deferred.resolve() })
+  return deferred.promise
+}
+
+function mylog(s) {
+  $logArea.val($logArea.val() ? $logArea.val() + '\n' + s : s)
+}
+
+function showImage() {
+  mylog('Done!')
+  $('#doneimage-promises').removeClass('hidden')
+}
+
+})()
+</script>

@@ -1,0 +1,52 @@
+<hr>
+<style>
+  img#doneimage-async.hidden { display: none !important; }
+</style>
+<div>
+  <button id="async-button1" disabled=disabled>One</button>
+  <button id="async-button2" disabled=disabled>Two</button>
+  <button id="async-button3" disabled=disabled>Three</button>
+</div>
+<div>
+  <img id="doneimage-async" src="img/done.jpg" class="hidden" style="float: right;" width="200">
+  <textarea cols="80" rows="5" id="logarea-async"></textarea>
+</div>
+<script src="http://rawgit.com/caolan/async/master/lib/async.js"></script>
+<script>
+(function () {
+var $logArea = $('#logarea-async')
+
+// START OMIT
+async.series([ // HL
+  waitForButton(1),
+  function (cb) {
+    async.parallel([ // HL
+      waitForButton(2),
+      waitForButton(3)
+    ], cb)
+  }
+], showImage)
+// END OMIT
+
+function waitForButton(n) {
+  mylog('Waiting for button ' + n)
+  $('#async-button'+n).prop('disabled', '')
+  var called = false
+  return function (cb) {
+    $('#async-button'+n).click(function () {
+      called ? null : cb();
+      called = true
+    })
+  }
+}
+
+function mylog(s) {
+  $logArea.val($logArea.val() ? $logArea.val() + '\n' + s : s)
+}
+
+function showImage() {
+  mylog('Done!')
+  $('#doneimage-async').removeClass('hidden')
+}
+})()
+</script>
