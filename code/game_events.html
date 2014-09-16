@@ -1,0 +1,70 @@
+<style>
+  #board {
+    position: relative;
+    margin-left: 100px;
+    margin-top: 100px;
+    height: 310px;
+    width: 310px;
+    border: 1px solid black;
+  }
+
+  #piece {
+    height: 10px;
+    width: 10px;
+    background-color: red;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+</style>
+<div id="board"><div id="piece"></div></div>
+<button id="start-game">Start!</button>
+<button id="stop-game">Stop</button>
+<script src="https://rawgit.com/Wolfy87/EventEmitter/master/EventEmitter.min.js"></script>
+<script>
+(function () {
+var reactor = new EventEmitter()
+  , state = { x: 0, y: 0 }
+  , piece = document.getElementById('piece')
+  , loopInterval
+  , n = 0
+
+function draw(state) {
+  piece.style.top = state.y + 'px'
+  piece.style.left = state.x + 'px'
+}
+
+document.getElementById('start-game').addEventListener('click', function () {
+  reactor.emit('start')
+})
+document.getElementById('stop-game').addEventListener('click', function () {
+  reactor.emit('stop')
+})
+
+
+reactor.on('stop', function () {
+  clearInterval(loopInterval); loopInterval = undefined
+})
+
+//START OMIT
+reactor.on('start', function () {
+  loopInterval = loopInterval || setInterval(function () {
+    reactor.emit('loop', n++) // HL
+    reactor.emit('draw') // HL
+  }, 100)
+})
+
+reactor.on('draw', function () { // HL
+  draw(state)
+})
+
+reactor.on('loop', function (n) { // HL
+  if (n % 2)
+    state.x += 1
+  else if (n % 3)
+    state.y += 1
+})
+
+//END OMIT
+})()
+</script>

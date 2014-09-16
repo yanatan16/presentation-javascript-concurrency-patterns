@@ -11,51 +11,27 @@ http://joneisen.me/
 
 * Overview
 
-1. *Introduction*
+1. *What*is*Concurrency?*
 
-- Javascript (not so) basics
-- What is Concurrency?
+2. *Concurrency*Basics*
 
-2. *Concurrency* *Patterns*
+- Asynchronous Javascript
+- Flow Control: `async` and Promises
 
-- Flow Control
+2. *Concurrency*Patterns*
+
 - Events
-- Middleware
 - Finite Worker Queues
 
 3. *Recap*
 
-
-####################### Javascript (not-so) Basics #######################
-* Javascript Concurrency Patterns
-** Javascript (not-so) Basics
-.image img/write_all_the_code_in_javascript1.jpg _ 500
-
-* Functional Javascript
-
-Functional Programming is important to know for concurrent javascript.
-
-.play code/church.js /START/,/END/
-
-* Callbacks
-
-Callbacks are the core of concurrent javascript.
-
-.code code/callbacks.js
-
-They allow us to let the main event loop reschedule tasks to run.
-
-* Callback Hell
-
-But callbacks can quickly make unreadable code.
-
-.code code/callback_hell.js
+.html code/jquery.html
 
 
 ####################### Introduction #######################
 * Javascript Concurrency Patterns
 ** Intro to Concurrency
-.image img/meme-concurrency.jpg _ 500
+.image img/meme-concurrency.jpg _ 350
 
 * What is Concurrency?
 
@@ -65,24 +41,39 @@ But callbacks can quickly make unreadable code.
 
 (Above points from [[http://talks.golang.org/2012/concurrency.slide][Go Concurrency Patterns]] by Rob Pike, 2012)
 
-- Concurrency is doing more than one thing at once.
-- Concurrency is vacuuming while running the dishwasher.
-
 * Single-threaded concurrency
 
 - Single thread means a single CPU thread
-- Can't concurrently run CPU tasks
-- Concurrently run IO tasks
+- Can't run two calculations at once
+- But we can _wait_ on two things at once!
 
-.play code/single-thread-concurrency.js /START/,/END/
 
-* Concurrency Patterns
 
 If you're building a system with concurrency, any type of system, what are the things you might use or see?
 
+Answer: *Concurrency*Patterns*
+
+
+####################### Javascript Basics #######################
+* Javascript Concurrency Basics
+** First Steps
+.image img/write_all_the_code_in_javascript1.jpg _ 500
+
+* Not Concurrent
+
+.play code/single-thread-not-concurrent.js /START/,/END/
+
+This isn't concurrent because the `chat` function never returns.
+
+* Now Concurrent
+
+.play code/single-thread-concurrency.js /START/,/END/
+
+This _is_ concurrent because we ask the javascript engine to notify us every time interval.
+
 
 ####################### Flow Control #######################
-* Javascript Concurrency Patterns
+* Javascript Concurrency Basics
 ** Flow Control
 .image img/meme-refactor.jpg _ 400
 
@@ -90,11 +81,20 @@ If you're building a system with concurrency, any type of system, what are the t
 
 .image img/parallel_flow.png _ 500
 
-*A*Definition:* The organization and act of performing heterogeneous asynchronous tasks concurrently, accounting for dependencies between tasks.
+*A*Complicated*Definition:* The organization and act of performing heterogeneous asynchronous tasks concurrently, accounting for dependencies between tasks.
 
-*Another*Definition:* Running some things in parallel and some things in series.
+*A*Simpler*Definition:* Running some things in parallel and some things in series.
 
-*Yet*Another*Definition:* Programming.
+*More*Simpler*Definition:* Programming.
+
+* Flow Control Use Case
+
+Flow control is used *all*the*time*.
+
+  I use flow control every day I program javascript.
+
+- Flow control is how _tasks_ are run.
+- It is _not_ a system architecture.
 
 * async
 
@@ -112,33 +112,12 @@ Promises offer an alternate way to do flow control.
 
 .link https://npmjs.org/package/q
 
-* Flow Control Use Case
-
-Flow control is used *all*the*time*.
-
-  I use flow control every time I program javascript.
-
-- Flow control is how _tasks_ are run.
-- It is _not_ a system architecture.
-
 
 ####################### Events #######################
 * Javascript Concurrency Patterns
 ** Events
 
 .image img/meme-jquery.jpg _ 350
-
-* Browser User Interactions using jQuery
-
-.code code/jquery_events.js
-
-* Game Loop using EventEmitter
-
-.play code/events.js /START/,/END/
-
-Events allow for declarative concurrency and decoupled communication.
-
-.link http://nodejs.org/api/events.html#events_class_events_eventemitter
 
 * Events Use Case
 
@@ -147,38 +126,80 @@ Events allow for declarative concurrency and decoupled communication.
 *Environment*Interaction:*
 
 - DOM events like `change`, `load`, `input`, `keydown`, `touchstart`, etc
-- Node streams use events
+- Many basic node objects use events (files, streams, http requests)
 
 *High*Level:*
 
 - A _messaging_ system where decoupled parts can communicate through an event emitter intermediary
 - Events can enable third-party plugins to work with your libraries
 
+* Events, Simply
+
+.image img/events.png _ 600
+
+* Events, Simply, Again
+
+.code code/simple_events.html
+.html code/simple_events.html
+
+Click the button!
+
+* Browser User Interactions using jQuery
+
+.code code/jquery_events.html /START/,/END/
+.html code/jquery_events.html
+
+Submit the form!
+
+* Game Loop using EventEmitter
+
+.html code/game_events.html
+
+* Game Loop using EventEmitter
+
+.code code/game_events.html /START/,/END/
+
+Events allow for declarative concurrency and decoupled communication.
+
+
 ####################### Middleware #######################
-* Javascript Concurrency Patterns
-** Middleware
-.image img/middlewaredoge.jpeg _ 350
-
-* express
-
-The [[http://expressjs.com/][express]] webserver uses middleware all over the place!
-
-.code code/express.js /START1/,/END1/
-.play code/express.js /START2/,/END2/
-
-* Middleware Use Case
-
-  Middleware is essentially `async.series` with some context.
-
-But `express` middleware is so common!
-
-Some other uses exist, but are far less common.
+#* Javascript Concurrency Patterns
+#** Middleware
+#.image img/middlewaredoge.jpeg _ 350
+#
+#* express
+#
+#The [[http://expressjs.com/][express]] webserver uses middleware all over the place!
+#
+#.code code/express.js /START1/,/END1/
+#.play code/express.js /START2/,/END2/
+#
+#* Middleware Use Case
+#
+#  Middleware is essentially `async.series` with some context.
+#
+#But `express` middleware is so common!
+#
+#Some other uses exist, but are far less common.
 
 
 ####################### Finite Worker Queue #######################
 * Javascript Concurrency Patterns
 ** Finite Worker Queue
 .image img/meme-queue.jpg _ 350
+
+* Queues Use Case
+
+Queues are a great way to decouple asking for work and doing work.
+
+- Makes a system respond fast
+- Allows a lot of work to be done without impacting response time
+- Helps keep track of work to be done
+
+Finite worker advantages:
+
+- Rate limiting (***cough*** twitter's API ***cough***).
+- Reduce race conditions between tasks
 
 * Finite Worker Queue
 
@@ -202,20 +223,6 @@ This is a trivial case!
 
 .play code/infinite_worker_queue.js /START/,/END/
 
-In fact, `express` is an infinite worker queue itself!
-
-* Queues Use Case
-
-Queues are a great way to decouple asking for work and doing work.
-
-- Makes a system respond fast
-- Allows a lot of work to be done without impacting response time
-- Helps keep track of work to be done
-
-Finite queues:
-
-- Rate limiting (***cough*** twitter's API ***cough***).
-- Reduce race conditions between tasks
 
 ####################### Ending #######################
 * Javascript Concurrency Patterns
@@ -226,7 +233,6 @@ Finite queues:
 
 - Flow Control for tasks (async & promises)
 - Events (EventEmitter & jQuery)
-- Middleware (express)
 - Finite Worker Queue (custom & async)
 
 Choose the pattern _right_ for your situation!
@@ -239,7 +245,7 @@ Javascript Concurrency I didn't talk about:
 - [[https://github.com/substack/stream-handbook][Node Streams]]
 - [[https://github.com/Rafflecopter/node-relyq][Using Redis as a distributed queue]]
 - [[https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function*][ES6 Generators]]
-- [[http://swannodette.github.io/2013/08/24/es6-generators-and-csp/][CSP in ES6 Javascript]]
+- [[https://blog.safaribooksonline.com/2014/03/10/express-js-middleware-demystified/][Express Middleware]]
 
 Cool Concurrency Things (read: Not Javascript)
 

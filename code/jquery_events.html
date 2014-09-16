@@ -1,0 +1,24 @@
+<form id="events-form">
+  <input type="text">
+  <button class="submit">Submit</button>
+</form>
+<script>
+(function ($) {
+// START OMIT
+var reactor = $('body')
+
+// Browser-based event: click submit button
+$('#events-form button.submit').on('click', function (e) { // HL
+  e.preventDefault()
+  var data = $('#events-form input').val()
+  reactor.trigger('my-submit', data) // HL
+  return false
+})
+
+// Custom event
+reactor.on('my-submit', function (e, data) { // HL
+  alert('submitting form with data: ' + data)
+})
+// END OMIT
+})(jQuery)
+</script>
