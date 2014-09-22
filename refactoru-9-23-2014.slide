@@ -116,6 +116,14 @@ Promises offer an alternate way to do flow control.
 
 .html code/promises.html
 
+* Asynchronous Map - Database Walking
+
+Imagine we have to retrieve a list of user objects that are friends with a user. First we must look up the user's friends list. Then we must retrieve his/her friend's user objects from the database. This is called _asynchronouse_mapping_.
+
+* Asynchronous Map - Database Walking
+
+.code code/dbwalk.js /STARTASYNC/,/ENDASYNC/
+.code code/dbwalk.js /STARTPROMISE/,/ENDPROMISE/
 
 
 ####################### Events #######################
