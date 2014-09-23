@@ -6,7 +6,7 @@ chat('       pong', {every: 1000})
 
 function chat(str, opts) {
   var last = 0;
-  while (true) {
+  while (true) { // HL
     if (Date.now() - last > opts.every) {
       last = Date.now()
       console.log(str)

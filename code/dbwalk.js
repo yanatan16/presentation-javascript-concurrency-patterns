@@ -1,6 +1,6 @@
 // STARTASYNC OMIT
 function findFriends(userId, callback) {
-  findUser(userId, function (err, friends) {
+  findUser(userId, function (err, user) {
     if (err) return callback(err)
     async.map(user.friends, findUser, callback) // HL
   })
